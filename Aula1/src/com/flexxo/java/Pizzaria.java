@@ -25,13 +25,20 @@ public class Pizzaria {
 		try{
 			Scanner scan = new Scanner(System.in);
 			while (true){
-				
+				System.out.println("Calabresa 1");
+				System.out.println("Quatro queijos 2");
 				String nome = scan.next();
-//				if (nome.eq)
-				PizzaCalabressa calabresa = new PizzaCalabressa();
-				if (preparar(calabresa, false)){
-					aquecer(calabresa);
-				}	
+				if (nome.equals("1")){
+					PizzaCalabressa calabresa = new PizzaCalabressa();
+					if (preparar(calabresa, false)){
+						aquecer(calabresa);
+					}	
+				}else if (nome.equals("2")){
+					PizzaCalabressa calabresa = new PizzaCalabressa();
+					if (preparar(calabresa, false)){
+						aquecer(calabresa);
+					}
+				}
 			}
 			
 
@@ -44,7 +51,8 @@ public class Pizzaria {
 		for (Ingrediente ingrediente : pizza.getIngredientes(media)) {
 			Ingrediente itemEstoque = estoque.get(ingrediente.getNome());
 			if (ingrediente.getQuantidade() > itemEstoque.getQuantidade()){
-				throw new Exception();
+				System.out.println("sem estoque");
+//				throw new Exception();
 			} else {
 				itemEstoque.setQuantidade(itemEstoque.getQuantidade()-ingrediente.getQuantidade());
 			}
@@ -57,7 +65,6 @@ public class Pizzaria {
 		try {
 			Thread.sleep(pizza.tempo);
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

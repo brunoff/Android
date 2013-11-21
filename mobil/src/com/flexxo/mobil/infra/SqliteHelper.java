@@ -19,7 +19,7 @@ public class SqliteHelper extends SQLiteOpenHelper {
 	public static void init(Context context) {
 		if (current == null)
 			current = new SqliteHelper(context, null);
-		current.onUpgrade(current.getWritableDatabase(), -1, -1);
+//		current.onUpgrade(current.getWritableDatabase(), -1, -1);
 	}
 
 	public static SqliteHelper getCurrent() {
@@ -37,40 +37,40 @@ public class SqliteHelper extends SQLiteOpenHelper {
 
 	@Override
 	public void onCreate(SQLiteDatabase database) {
-		String sql = "Create table " + Usuario.Sql.TABLE_NAME + " (" + Usuario.Sql.NOME + " TEXT NOT NULL PRIMARY KEY ," + Usuario.Sql.SENHA + " TEXT NOT NULL)";
+//		String sql = "Create table " + Usuario.Sql.TABLE_NAME + " (" + Usuario.Sql.NOME + " TEXT NOT NULL PRIMARY KEY ," + Usuario.Sql.SENHA + " TEXT NOT NULL)";
 
-		database.execSQL(sql);
+//		database.execSQL(sql);
 	}
 
 	@Override
 	public void onUpgrade(SQLiteDatabase database, int oldVersion, int newVersion) {
-		if (oldVersion == -1 && newVersion == -1) {
-			String sql;
-			sql = "delete from " + Usuario.Sql.TABLE_NAME;
-			database.execSQL(sql);
-			SQLiteStatement statement;  
-			
-			database.beginTransaction();
-			long ini;int count = 0;
-			ini = System.currentTimeMillis();
-			sql = "insert into " + Usuario.Sql.TABLE_NAME + " values (?, ?)";
-			statement = database.compileStatement(sql);
-			for (int i = 0; i < 100000; i++) {
-				statement.bindString(1, "bruno"+String.valueOf(i));
-				statement.bindString(2, "123"+String.valueOf(i));
-				statement.executeInsert();
-				count++;
-				if (System.currentTimeMillis()-ini> 1000l){
-					Log.d("CustomLogger","RPS="+String.valueOf(count));
-					count = 0;
-					ini = System.currentTimeMillis();
-				}
-//				database.execSQL(sql);
-			}
-			database.setTransactionSuccessful();
-			database.endTransaction();
-			Log.d("CustomLogger", "Upgrade");
-		}
+//		if (oldVersion == -1 && newVersion == -1) {
+//			String sql;
+//			sql = "delete from " + Usuario.Sql.TABLE_NAME;
+//			database.execSQL(sql);
+//			SQLiteStatement statement;  
+//			
+//			database.beginTransaction();
+//			long ini;int count = 0;
+//			ini = System.currentTimeMillis();
+//			sql = "insert into " + Usuario.Sql.TABLE_NAME + " values (?, ?)";
+//			statement = database.compileStatement(sql);
+//			for (int i = 0; i < 10; i++) {
+//				statement.bindString(1, "bruno"+String.valueOf(i));
+//				statement.bindString(2, "123"+String.valueOf(i));
+//				statement.executeInsert();
+//				count++;
+//				if (System.currentTimeMillis()-ini> 1000l){
+//					Log.d("CustomLogger","RPS="+String.valueOf(count));
+//					count = 0;
+//					ini = System.currentTimeMillis();
+//				}
+////				database.execSQL(sql);
+//			}
+//			database.setTransactionSuccessful();
+//			database.endTransaction();
+//			Log.d("CustomLogger", "Upgrade");
+//		}
 
 	}
 

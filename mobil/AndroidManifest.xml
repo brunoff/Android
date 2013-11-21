@@ -9,8 +9,8 @@
         android:targetSdkVersion="17" />
 
     <application
+        android:name="com.flexxo.mobil.MobilApplication"
         android:allowBackup="true"
-        android:name="MobilApplication"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
@@ -24,9 +24,8 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.flexxo.mobil.LogingActivity"
-            android:label="@string/title_activity_loging"
-            android:windowSoftInputMode="adjustResize|stateVisible" >
+            android:name="com.flexxo.mobil.MenuActivity"
+            android:label="@string/title_activity_menu" >
         </activity>
     </application>
 

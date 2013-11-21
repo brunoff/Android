@@ -17,32 +17,44 @@ public class Usuario {
 		}
 	}
 
+	private static List<Usuario> lista = new ArrayList<Usuario>() {
+		{
+			add(new Usuario("bruno", "bruno"));
+		}
+	};
+
 	private String usuario;
 	private String senha;
 
-	public Usuario(Cursor cursor) {
-		usuario = cursor.getString(0);
-		senha = cursor.getString(1);
+	public Usuario(String usuario, String senha) {
+		this.usuario = usuario;
+		this.senha = senha;
 	}
 
 	public static Usuario get(String nome) {
-		UsuarioDao dao = new UsuarioDao();
-		Cursor cursor = dao.get(nome);
-		if (cursor.moveToFirst()){
-			return new Usuario(cursor);
+		// UsuarioDao dao = new UsuarioDao();
+		// Cursor cursor = dao.get(nome);
+		// if (cursor.moveToFirst()){
+		// return new Usuario(cursor);
+		// }
+		for (Usuario usuario : lista) {
+			if (usuario.getUsuario().equals(nome))
+				return usuario;
 		}
+		
 		return null;
 	}
 
-	public static List<Usuario> getAll(){
-		UsuarioDao dao = new UsuarioDao();
-		Cursor cursor = dao.getAll();
-		List<Usuario> retorno = new ArrayList<Usuario>(); 
-		for (boolean hasItem = cursor.moveToFirst(); hasItem; hasItem = cursor.moveToNext()) {
-			retorno.add(new Usuario(cursor));
-//			Log.d("CustomLogger",cursor.getCount()+"/"+cursor.getPosition());			
-		}
-		return retorno; 
+	public static List<Usuario> getAll() {
+		// UsuarioDao dao = new UsuarioDao();
+		// Cursor cursor = dao.getAll();
+		// List<Usuario> retorno = new ArrayList<Usuario>();
+		// for (boolean hasItem = cursor.moveToFirst(); hasItem; hasItem =
+		// cursor.moveToNext()) {
+		// retorno.add(new Usuario(cursor));
+		// // Log.d("CustomLogger",cursor.getCount()+"/"+cursor.getPosition());
+		// }
+		return lista;
 	}
 
 	public String getUsuario() {

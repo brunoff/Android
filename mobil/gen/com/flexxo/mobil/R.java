@@ -8,9 +8,6 @@
 package com.flexxo.mobil;
 
 public final class R {
-    public static final class abc {
-        public static final int cadastro_imovel_txt_codigo=0x7f070000;
-    }
     public static final class attr {
     }
     public static final class dimen {
@@ -27,12 +24,14 @@ public final class R {
         public static final int ic_launcher=0x7f020000;
     }
     public static final class id {
-        public static final int analogClock1=0x7f080004;
-        public static final int button1=0x7f080000;
-        public static final int editText1=0x7f080001;
-        public static final int editText2=0x7f080003;
-        public static final int menu_btn_cadastro_imovel=0x7f080005;
-        public static final int textView1=0x7f080002;
+        public static final int analogClock1=0x7f070006;
+        public static final int button1=0x7f070003;
+        public static final int cadastro_imovel_txt_codigo=0x7f070000;
+        public static final int editText1=0x7f070002;
+        public static final int editText2=0x7f070005;
+        public static final int menu_btn_cadastro_imovel=0x7f070007;
+        public static final int textView1=0x7f070004;
+        public static final int toggleButton1=0x7f070001;
     }
     public static final class layout {
         public static final int cadastro_imovel_activity=0x7f030000;

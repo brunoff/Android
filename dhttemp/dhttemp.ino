@@ -1,5 +1,6 @@
 #include <dht.h>
 
+#include <dht.h>
 #include <Wire.h>
 #include <LCD.h>
 #include <LiquidCrystal_I2C.h>
@@ -10,9 +11,9 @@ LiquidCrystal_I2C lcd(0x27, 2, 1, 0, 4, 5, 6, 7, 3, POSITIVE); // Addr, En, Rw, 
 
 dht DHT; //Inicializa o sensor
 unsigned int flip = 0;
-const int ledAzul = 9;      //constante ledAzul refere-se ao pino digital 8.
-const int ledVerde = 10;     //constante ledVerde refere-se ao pino digital 9.
-const int ledVermelho = 11; //constante ledVermelho refere-se ao pino digital 10.
+const int ledAzul = 9;      //constante ledAzul refere-se ao pino digital 9.
+const int ledVerde = 10;     //constante ledVerde refere-se ao pino digital 10.
+const int ledVermelho = 11; //constante ledVermelho refere-se ao pino digital 11.
 
 void setup()
 {
@@ -57,42 +58,51 @@ void loop()
   int blueTemp= 0; 
   int greenTemp= 0; 
   int redTemp= 0;
-  if(DHT.temperature<0){
-    analogWrite(ledAzul, 255);
-  }
-  else if(DHT.temperature>0&&DHT.temperature<=45){
-    blueTemp= map(DHT.temperature, 0, 45, 255, 0);
-    analogWrite(ledAzul, blueTemp);
-  }
-  else if(DHT.temperature>){
-    analogWrite(ledAzul, 0);
-  }
+//  if(DHT.temperature<0){
+//    analogWrite(ledAzul, 255);
+//  }
+//  else if(DHT.temperature>0&&DHT.temperature<=45){
+//    blueTemp= map(DHT.temperature, 0, 45, 255, 0);
+//    analogWrite(ledAzul, blueTemp);
+//  }
+//  else if(DHT.temperature>45){
+//    analogWrite(ledAzul, 0);
+//  }
+//  if(DHT.temperature<15){
+//    analogWrite(ledVerde, 0);
+//  }
+//  else if(DHT.temperature>15&&DHT.temperature<=35){
+//    greenTemp = map(DHT.temperature, 15, 35, 1, 254);
+//    analogWrite(ledVerde, greenTemp);
+//  }
+//  else if(DHT.temperature>35&&DHT.temperature<=75){
+//    greenTemp = map(DHT.temperature, 35, 75, 255, 0);
+//    analogWrite(ledVerde, greenTemp);
+//  }
+//  else if(DHT.temperature>75){
+//    analogWrite(ledVerde, 0);
+//  }
+//  if(DHT.temperature<45){
+//    analogWrite(ledVermelho, 0);
+//  }
+//  else if(DHT.temperature>=45){
+//    redTemp= map(DHT.temperature, 45, 90, 1, 255);
+//    analogWrite(ledVermelho, redTemp);
+//  }
+//  else if(DHT.temperature>90){
+//    analogWrite(ledAzul, 255);
+//        analogWrite(ledVermelho, 255);
+//  }
 
-  if(DHT.temperature<15){
-    analogWrite(ledVerde, 0);
-  }
-  else if(DHT.temperature>15&&DHT.temperature<=35){
-    greenTemp = map(DHT.temperature, 15, 35, 1, 254);
-    analogWrite(ledVerde, greenTemp);
-  }
-  else if(DHT.temperature>35&&DHT.temperature<=75){
-    greenTemp = map(DHT.temperature, 35, 75, 255, 0);
-    analogWrite(ledVerde, greenTemp);
-  }
-  else if(DHT.temperature>75){
-    analogWrite(ledVerde, 0);
-  }
+if (DHT.temperature>28){
+         analogWrite(ledVermelho, 255);
+                  analogWrite(ledVerde, 0);
+}else{
+         analogWrite(ledVermelho, 0);
+         analogWrite(ledVerde, 255);
+}
+  
 
-  if(DHT.temperature<45){
-    analogWrite(ledVermelho, 0);
-  }
-  else if(DHT.temperature>=45){
-    redTemp= map(DHT.temperature, 45, 90, 1, 255);
-    analogWrite(ledVermelho, redTemp);
-  }
-  else if(DHT.temperature>90){
-    analogWrite(ledVermelho, 255);
-  }
 
 
   if ( flip & 1 )
@@ -131,6 +141,7 @@ void loop()
 
   delay(2000);  //Não diminuir muito este valor. O ideal é a leitura a cada 2 segundos
 }
+
 
 
 

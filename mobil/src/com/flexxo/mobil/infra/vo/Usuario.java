@@ -2,9 +2,6 @@ package com.flexxo.mobil.infra.vo;
 
 import java.util.ArrayList;
 import java.util.List;
-import android.database.Cursor;
-import android.util.Log;
-import com.flexxo.mobil.infra.dao.UsuarioDao;
 
 public class Usuario {
 
@@ -16,12 +13,16 @@ public class Usuario {
 			this.nome = nome;
 		}
 	}
-
-	private static List<Usuario> lista = new ArrayList<Usuario>() {
-		{
-			add(new Usuario("bruno", "bruno"));
+	
+	private static List<Usuario> lista = new ArrayList<Usuario>();
+	
+	//Construtor estático
+	static {
+		for (int i = 0;i< 1000;i++){
+			lista.add(new Usuario("bruno"+i, "bruno"+i));
 		}
-	};
+	}
+	
 
 	private String usuario;
 	private String senha;

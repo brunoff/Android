@@ -27,6 +27,9 @@
             android:name="com.flexxo.mobil.MenuActivity"
             android:label="@string/title_activity_menu" >
         </activity>
+        
+        <activity android:name="com.flexxo.mobil.CadastroImovelActivity" 
+            android:label="Cadastrar Imóvel"/>
     </application>
 
 </manifest>

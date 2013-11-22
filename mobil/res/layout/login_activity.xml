@@ -42,4 +42,11 @@
         android:hint="Senha"
         android:inputType="textPassword" />
 
+    <AnalogClock
+        android:id="@+id/analogClock1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/button1"
+        android:layout_centerHorizontal="true" />
+
 </RelativeLayout>

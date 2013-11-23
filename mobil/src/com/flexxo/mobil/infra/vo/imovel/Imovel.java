@@ -1,4 +1,4 @@
-package com.flexxo.mobil.infra.vo;
+package com.flexxo.mobil.infra.vo.imovel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,17 +9,18 @@ public class Imovel {
 
 	private String codigo;
 	private String imovel;
-	private String uf;
 	private String cidade;
 	private String bairro;
-	private int tipo;
+	private String uf;
+	private TipoImovel tipo;
 
-	public Imovel(String codigo, String imovel, String uf, String cidade,String bairro, int tipo) {
+	public Imovel(String codigo, String imovel, String cidade, String bairro,
+			String uf, TipoImovel tipo) {
 		this.codigo = codigo;
 		this.imovel = imovel;
-		this.uf = uf;
 		this.cidade = cidade;
 		this.bairro = bairro;
+		this.uf = uf;
 		this.tipo = tipo;
 	}
 
@@ -36,21 +37,13 @@ public class Imovel {
 		return lista;
 	}
 
-	public static List<Imovel> getLista() {
-		return lista;
-	}
-	
-	//gets sets
+	// gets sets
 	public String getCodigo() {
 		return codigo;
 	}
 
 	public String getImovel() {
 		return imovel;
-	}
-
-	public String getUf() {
-		return uf;
 	}
 
 	public String getCidade() {
@@ -61,7 +54,11 @@ public class Imovel {
 		return bairro;
 	}
 
-	public int getTipo() {
+	public String getUf() {
+		return uf;
+	}
+
+	public TipoImovel getTipo() {
 		return tipo;
-	}	
+	}
 }

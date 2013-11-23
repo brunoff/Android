@@ -6,42 +6,32 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context=".LoginActivity" >
+    tools:context=".MainActivity" >
 
-    <Button
-        android:id="@+id/button1"
+    <TextView
+        android:id="@+id/textView1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:text="Ok" />
+        android:text="@string/hello_world" />
 
     <EditText
         android:id="@+id/editText1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/textView1"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="46dp"
-        android:singleLine="true"
+        android:layout_alignLeft="@+id/textView1"
+        android:layout_below="@+id/buttonTeste"
+        android:layout_marginLeft="24dp"
+        android:layout_marginTop="55dp"
         android:ems="10"
-        android:text="bruno1"
-        android:hint="Usuário" >
+        android:hint="Usuario" />
 
-        <requestFocus />
-    </EditText>
-
-    <EditText
-        android:id="@+id/editText2"
+    <Button
+        android:id="@+id/activity_main_buttonOK"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/editText1"
-        android:layout_centerHorizontal="true"
-        android:singleLine="true"
-        android:ems="10"
-        android:imeOptions="actionDone"
-        android:hint="Senha"
-        android:text="bruno1"
-        android:inputType="textPassword" />
+        android:layout_marginTop="42dp"
+        android:layout_toRightOf="@+id/textView1"
+        android:hint="aaa" />
 
 </RelativeLayout>

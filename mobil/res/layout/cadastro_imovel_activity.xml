@@ -1,4 +1,4 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -6,19 +6,45 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context=".MenuActivity" >
+    android:orientation="vertical"
+     >
 
     <EditText
         android:id="@+id/cadastro_imovel_txt_codigo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="50dp"
         android:hint="Codigo"
+        android:singleLine="true"
         android:ems="10" >
 
         <requestFocus />
     </EditText>
+    
+    <EditText
+        android:id="@+id/cadastro_imovel_txt_imovel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="Imovel"
+        android:singleLine="true"
+        android:ems="10" >
 
-</RelativeLayout>
+    </EditText>
+    
+    <Spinner 
+        android:id="@+id/cadastro_imovel_txt_uf"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="UF"
+        android:ems="10" >
+
+    </Spinner>
+     <Spinner 
+        android:id="@+id/cadastro_imovel_txt_tipo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="Tipo"
+        android:ems="10" >
+
+    </Spinner>
+
+</LinearLayout>

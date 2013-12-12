@@ -1,0 +1,1 @@
+create table Usuarios (nome_usu TEXT NOT NULL PRIMARY KEY, senha_usu text not null);

@@ -1,17 +1,12 @@
 package com.flexxo.mobil.fragments;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-
+import java.util.List;
 import android.os.Bundle;
-import android.view.View;
-
-import com.flexxo.mobil.MenuActivity;
 import com.flexxo.mobil.infra.vo.imovel.Imovel;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.GoogleMap.InfoWindowAdapter;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
@@ -28,7 +23,7 @@ public class MapaFragment extends MapFragment {
 		super.onActivityCreated(paramBundle);
 	}
 	
-	public void overlayMap(ArrayList<HashMap<String, Object>> lista) {
+	public void overlayMap(List<Imovel> lista) {
 		googleMap = getMap();
 //		googleMap.setInfoWindowAdapter(new InfoWindowAdapter() {
 //			
@@ -48,14 +43,15 @@ public class MapaFragment extends MapFragment {
 		if (googleMap == null)
 			return;
 		
+		googleMap.clear();
+		
 		markers = new HashMap<String, Marker>();
 		LatLng latLng = null;
 		
-		for (HashMap<String, Object> hashMap : lista) {
-			Imovel imovel = (Imovel)hashMap.get("imovel");
-			latLng = new LatLng(imovel.getLatitude(), imovel.getLongitude());
+		for (Imovel imovel : lista) {
+			latLng = new LatLng(imovel.getEndereco().getLatitude(), imovel.getEndereco().getLongitude());
 		    googleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
-		    markers.put(imovel.getImovel(), googleMap.addMarker(new MarkerOptions()
+		    markers.put(imovel.getNome(), googleMap.addMarker(new MarkerOptions()
 	            .position(latLng)
 	            .title("Imovel")
 	            .snippet("This is my spot!")
@@ -71,7 +67,7 @@ public class MapaFragment extends MapFragment {
 
 	public void gotoImovel(Imovel imovel) {
 		LatLngBounds.Builder builder = new LatLngBounds.Builder();
-		Marker m = markers.get(imovel.getImovel());
+		Marker m = markers.get(imovel.getNome());
 		builder.include(m.getPosition());
 		m.showInfoWindow();
 //		for (Entry<String,Marker> entry : markers.entrySet()) {

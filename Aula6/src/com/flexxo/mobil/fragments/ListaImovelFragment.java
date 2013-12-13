@@ -2,14 +2,19 @@ package com.flexxo.mobil.fragments;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-
+import java.util.List;
+import android.app.Activity;
 import android.app.ListFragment;
+import android.content.Context;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
+import android.widget.TextView;
 import android.widget.Toast;
-
 import com.flexxo.mobil.MenuActivity;
 import com.flexxo.mobil.R;
 import com.flexxo.mobil.infra.vo.imovel.Imovel;
@@ -17,47 +22,82 @@ import com.flexxo.mobil.infra.vo.imovel.Imovel;
 public class ListaImovelFragment extends ListFragment {
 	private MenuActivity activity;
 	private ListView lista;
-	private ArrayList<HashMap<String, Object>> listaValores;
+	private List<Imovel> listaValores;
 
 	public void onActivityCreated(Bundle paramBundle) {
 		super.onActivityCreated(paramBundle);
-		
+
 		this.lista = ((ListView) getView().findViewById(android.R.id.list));
 		this.activity = ((MenuActivity) getActivity());
-		Toast.makeText(activity , "aa", Toast.LENGTH_LONG).show();
 		loadListView();
 	}
 
 	private void loadListView() {
-		listaValores = new ArrayList<HashMap<String, Object>>();
-		HashMap<String, Object> hash;
-		
-		for (Imovel imovel : Imovel.getAll()) {
-			hash = new HashMap<String, Object>();
-			hash.put("nome", imovel.getImovel());
-			hash.put("cidade", imovel.getCidade());
-			hash.put("imovel", imovel);
-			listaValores.add(hash);
-		}
+		listaValores = Imovel.getAll();
+		ImoveisAdapter adapter = new ImoveisAdapter(this.activity, listaValores);
 
-		String[] from = { "nome", "cidade" };
-		int[] to = { R.id.lista_imovel_frag_row_nome, R.id.lista_imovel_frag_row_cidade };
-		SimpleAdapter adapter = new SimpleAdapter(this.activity, listaValores,
-				R.layout.lista_imovel_fragment_row, from, to);
-		
 		this.lista.setAdapter(adapter);
 		setListShown(true);
-		//activity.overlayMap(listaValores);
+		activity.overlayMap(listaValores);
+	}
+
+	public void reload() {
+		loadListView();
 	}
 
 	@Override
 	public void onListItemClick(ListView l, View v, int position, long id) {
-		HashMap<String,Object> hash = listaValores.get(position);
-		if (hash!=null){
-			Toast.makeText(activity, hash.get("nome").toString(), Toast.LENGTH_LONG).show();
-//			activity.gotoImovel((Imovel)hash.get("imovel"));
+		Imovel imovel = listaValores.get(position);
+		if (imovel != null) {
+			//Toast.makeText(activity, hash.get("nome").toString(), Toast.LENGTH_LONG).show();
+			activity.gotoImovel(imovel);
 		}
 		super.onListItemClick(l, v, position, id);
 
+	}
+
+	public class ImoveisAdapter extends ArrayAdapter<Imovel> {
+		private List<Imovel> valores;
+
+		public ImoveisAdapter(Context context, int resource, Imovel[] objects) {
+			super(context, resource, objects);
+		}
+
+		public ImoveisAdapter(Context context, int resource, int textViewResourceId, Imovel[] objects) {
+			super(context, resource, textViewResourceId, objects);
+		}
+
+		public ImoveisAdapter(Context context, int resource, int textViewResourceId) {
+			super(context, resource, textViewResourceId);
+		}
+
+		public ImoveisAdapter(Context context, List<Imovel> valores) {
+			super(context, R.layout.lista_imovel_fragment_row, valores);
+			this.valores = valores;
+		}
+
+		public ImoveisAdapter(Context context, int resource) {
+			super(context, resource);
+		}
+
+		public ImoveisAdapter(Context context, int resource, int textViewResourceId, List<Imovel> objects) {
+			super(context, resource, textViewResourceId, objects);
+		}
+
+		@Override
+		public View getView(int position, View convertView, ViewGroup parent) {
+			if (convertView == null) {
+				LayoutInflater inflater = ((Activity) getContext()).getLayoutInflater();
+
+				convertView = inflater.inflate(R.layout.lista_imovel_fragment_row, parent, false);
+
+			}
+
+			TextView textViewItem = (TextView) convertView.findViewById(R.id.lista_imovel_frag_row_nome);
+
+			textViewItem.setText(valores.get(position).getNome());
+
+			return convertView;
+		}
 	}
 }

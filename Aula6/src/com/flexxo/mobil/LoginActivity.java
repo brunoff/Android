@@ -64,9 +64,8 @@ public class LoginActivity extends Activity {
 				}
 				return false;
 			}
-		});
+		});	
 		
-
 		btn.setOnClickListener(new OnClickListener() {
 
 			@Override

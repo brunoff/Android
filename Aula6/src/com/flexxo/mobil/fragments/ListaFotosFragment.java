@@ -1,0 +1,92 @@
+package com.flexxo.mobil.fragments;
+
+import java.io.File;
+import java.io.OutputStream;
+import java.util.List;
+import android.app.Activity;
+import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.Bundle;
+import android.os.Environment;
+import android.support.v4.app.ListFragment;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.ImageView;
+import android.widget.ListView;
+import com.flexxo.mobil.CadastroImovelActivity;
+import com.flexxo.mobil.R;
+import com.flexxo.mobil.infra.vo.imovel.Imovel;
+import com.google.android.gms.internal.ac;
+
+public class ListaFotosFragment extends ListFragment {
+	private Imovel imovelAtual;
+	private CadastroImovelActivity activity;
+	private ListView lista;
+	private List<String> listaValores;
+
+	@Override
+	public void onActivityCreated(Bundle savedInstanceState) {
+
+		super.onActivityCreated(savedInstanceState);
+
+		this.lista = ((ListView) getView().findViewById(android.R.id.list));
+		this.activity = ((CadastroImovelActivity) getActivity());
+		loadListView();
+	}
+
+	public void loadListView() {
+		listaValores = activity.getImovelAtual().getFotos();
+		FotosAdapter adapter = new FotosAdapter(this.activity, listaValores);
+		imovelAtual = activity.getImovelAtual();
+
+		this.lista.setAdapter(adapter);
+		setListShown(true);
+	}
+
+	public class FotosAdapter extends ArrayAdapter<String> {
+		private List<String> valores;
+
+		public FotosAdapter(Context context, int resource, int textViewResourceId) {
+			super(context, resource, textViewResourceId);
+		}
+
+		public FotosAdapter(Context context, List<String> valores) {
+			super(context, R.layout.lista_foto_fragment_row, valores);
+			this.valores = valores;
+		}
+
+		public FotosAdapter(Context context, int resource) {
+			super(context, resource);
+		}
+
+		public FotosAdapter(Context context, int resource, int textViewResourceId, List<String> objects) {
+			super(context, resource, textViewResourceId, objects);
+		}
+
+		@Override
+		public View getView(int position, View convertView, ViewGroup parent) {
+			if (convertView == null) {
+				LayoutInflater inflater = ((Activity) getContext()).getLayoutInflater();
+
+				convertView = inflater.inflate(R.layout.lista_foto_fragment_row, parent, false);
+
+			}
+
+			ImageView imageView = (ImageView) convertView.findViewById(R.id.lista_foto_frag_row_img);
+
+			
+			String extStorageDirectory = Environment.getExternalStorageDirectory().toString();
+						String file = extStorageDirectory+"/"+ imovelAtual.getCodigo() + "_" + position + ".jpg";
+//			File file = new File(extStorageDirectory, imovelAtual.getCodigo() + "_" + position + ".jpg");
+			
+			Bitmap myBitmap = BitmapFactory.decodeFile(file);
+			imageView.setImageBitmap(myBitmap);
+			
+
+			return convertView;
+		}
+	}
+}

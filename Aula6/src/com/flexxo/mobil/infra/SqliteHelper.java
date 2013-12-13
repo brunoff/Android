@@ -19,6 +19,7 @@ public class SqliteHelper extends SQLiteOpenHelper {
 
 	private static final int DATABASE_VERSION = 1;
 	private static final String DATABASE_NAME = "mobil.sqlite";
+	private String TAG = "sqlite";
 
 	private static SqliteHelper current;
 	private static Context mcontext;
@@ -28,7 +29,7 @@ public class SqliteHelper extends SQLiteOpenHelper {
 			current = new SqliteHelper(context, null);
 			mcontext = context;
 		}
-		// Force recompile
+		// Esse comando forca o script 1 do banco a ser executado novamente, só deve ser usado para teste. pois causa erro sempre que a aplicação executa
 		current.onUpgrade(current.getWritableDatabase(), 0, 1);
 	}
 
@@ -36,7 +37,6 @@ public class SqliteHelper extends SQLiteOpenHelper {
 		return current;
 	}
 
-	private String TAG = "sqlite";
 
 	public SqliteHelper(Context context, CursorFactory factory) {
 		super(context, DATABASE_NAME, factory, DATABASE_VERSION);

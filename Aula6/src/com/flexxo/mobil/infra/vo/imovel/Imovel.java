@@ -10,47 +10,11 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import android.database.Cursor;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Environment;
-import android.provider.ContactsContract.CommonDataKinds.Im;
 import com.flexxo.mobil.infra.dao.ImovelDao;
-import com.flexxo.mobil.infra.dao.UsuarioDao;
 import com.flexxo.mobil.infra.vo.Endereco;
-import com.flexxo.mobil.infra.vo.Usuario;
-import com.flexxo.mobil.infra.vo.Usuario.Sql;
-import com.google.android.gms.internal.en;
-import com.google.android.gms.internal.fo;
 
 public class Imovel {
-
-	// private static List<Imovel> lista = new ArrayList<Imovel>();
-
-	// static {
-	// Imovel imovel = new Imovel();
-	//
-	// imovel.setImovel("11");
-	// imovel.setCidade("Caxias do sul");
-	// imovel.setLatitude(-29.180379d);
-	// imovel.setLongitude(-51.208649d);
-	//
-	// lista.add(imovel);
-	// imovel = new Imovel();
-	//
-	// imovel.setImovel("223");
-	// imovel.setCidade("Caxias do sul");
-	// imovel.setLatitude(-29.174665d);
-	// imovel.setLongitude(-51.140671d);
-	// lista.add(imovel);
-	//
-	// imovel = new Imovel();
-	//
-	// imovel.setImovel("32");
-	// imovel.setCidade("Caxias do sul");
-	// imovel.setLatitude(-29.179425d);
-	// imovel.setLongitude(-51.179852);
-	// lista.add(imovel);
-	// }
-
 	public static enum Sql {
 		TABLE_NAME("Imovel"),
 
@@ -184,13 +148,7 @@ public class Imovel {
 	public void adicionaFoto(Bitmap foto) {
 		int index = fotos.size() + 1;
 		fotos.add(String.valueOf(index));
-
-		// Bitmap bbicon
-		// bbicon=BitmapFactory.decodeResource(getResources(),R.drawable.bannerd10);
-		// ByteArrayOutputStream baosicon = new ByteArrayOutputStream();
-		// bbicon.compress(Bitmap.CompressFormat.PNG,0, baosicon);
-		// bicon=baosicon.toByteArray();
-
+		
 		String extStorageDirectory = Environment.getExternalStorageDirectory().toString();
 		OutputStream outStream = null;
 		File file = new File(extStorageDirectory, codigo + "_" + index + ".jpg");
@@ -202,7 +160,6 @@ public class Imovel {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
 	}
 
 	public List<String> getFotos() {

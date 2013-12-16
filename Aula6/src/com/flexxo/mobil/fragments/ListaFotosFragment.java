@@ -1,7 +1,5 @@
 package com.flexxo.mobil.fragments;
 
-import java.io.File;
-import java.io.OutputStream;
 import java.util.List;
 import android.app.Activity;
 import android.content.Context;
@@ -19,7 +17,6 @@ import android.widget.ListView;
 import com.flexxo.mobil.CadastroImovelActivity;
 import com.flexxo.mobil.R;
 import com.flexxo.mobil.infra.vo.imovel.Imovel;
-import com.google.android.gms.internal.ac;
 
 public class ListaFotosFragment extends ListFragment {
 	private Imovel imovelAtual;
@@ -36,8 +33,15 @@ public class ListaFotosFragment extends ListFragment {
 		this.activity = ((CadastroImovelActivity) getActivity());
 		loadListView();
 	}
+	
+	@Override
+	public void onAttach(Activity activity) {
+		super.onAttach(activity);
+	}
 
 	public void loadListView() {
+		if (activity == null)
+			return;
 		listaValores = activity.getImovelAtual().getFotos();
 		FotosAdapter adapter = new FotosAdapter(this.activity, listaValores);
 		imovelAtual = activity.getImovelAtual();
@@ -68,6 +72,7 @@ public class ListaFotosFragment extends ListFragment {
 
 		@Override
 		public View getView(int position, View convertView, ViewGroup parent) {
+			int indexImg = position+1;
 			if (convertView == null) {
 				LayoutInflater inflater = ((Activity) getContext()).getLayoutInflater();
 
@@ -79,7 +84,7 @@ public class ListaFotosFragment extends ListFragment {
 
 			
 			String extStorageDirectory = Environment.getExternalStorageDirectory().toString();
-						String file = extStorageDirectory+"/"+ imovelAtual.getCodigo() + "_" + position + ".jpg";
+						String file = extStorageDirectory+"/"+ imovelAtual.getCodigo() + "_" + indexImg + ".jpg";
 //			File file = new File(extStorageDirectory, imovelAtual.getCodigo() + "_" + position + ".jpg");
 			
 			Bitmap myBitmap = BitmapFactory.decodeFile(file);

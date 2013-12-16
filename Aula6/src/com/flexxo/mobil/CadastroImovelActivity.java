@@ -3,9 +3,11 @@ package com.flexxo.mobil;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Map.Entry;
 import android.app.ActionBar;
 import android.app.ActionBar.Tab;
 import android.app.ActionBar.TabListener;
@@ -37,28 +39,29 @@ import com.flexxo.mobil.fragments.ListaFotosFragment.FotosAdapter;
 import com.flexxo.mobil.infra.vo.Endereco;
 import com.flexxo.mobil.infra.vo.imovel.Imovel;
 import com.flexxo.mobil.infra.vo.imovel.TipoImovel;
+import com.google.android.gms.internal.fr;
 
 public class CadastroImovelActivity extends FragmentActivity {
 	private Imovel imovelAtual;
-
-	private EditText txtCodigo;
-	private EditText txtNome;
-	private EditText txtEndereco;
-	private EditText txtBairro;
-	private EditText txtCidade;
-//	private EditText txtUf;
-	private EditText txtPosicao;
-	
-	private Spinner spnTipo;
 	private ViewPager pager;
+	private ListaFotosFragment listaFotos;
+	private CadastroImovelFragment dados;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.cadastro_imovel_activity);
 		
+		listaFotos = new ListaFotosFragment();
+		dados = new CadastroImovelFragment();
+		
+		Map<String, Fragment> abas = new LinkedHashMap<String, Fragment>(); 		
+		abas.put("Dados", dados );
+		abas.put("Fotos", listaFotos);		
+		CustomPagerAdapter adapter = new CustomPagerAdapter(getSupportFragmentManager(),getActionBar(), abas);
+		
 		pager = (ViewPager) findViewById(R.id.cadastro_imovel_activity_view_pager);		
-		pager.setAdapter(new CustomPagerAdapter(getSupportFragmentManager(),getActionBar()));
+		pager.setAdapter(adapter);
 		pager.setOnPageChangeListener(new OnPageChangeListener() {
 			
 			@Override
@@ -111,32 +114,31 @@ public class CadastroImovelActivity extends FragmentActivity {
 	};
 	
 	public class CustomPagerAdapter extends FragmentPagerAdapter  {
-
-		public CustomPagerAdapter(FragmentManager fm,ActionBar actionBar) {
+		private List<Fragment> fragments;
+		private List<String> labels;
+		public CustomPagerAdapter(FragmentManager fm,ActionBar actionBar,Map<String, Fragment> fragments) {
 			super(fm);
-			actionBar.addTab(actionBar.newTab()
-                    .setText("Dados")
-                    .setTabListener(tabListener));
+			this.fragments = new ArrayList<Fragment>();
+			this.labels = new ArrayList<String>();
 			
-			actionBar.addTab(actionBar.newTab()
-                    .setText("Fotos")
-                    .setTabListener(tabListener));
+			for (Entry<String, Fragment> fragment : fragments.entrySet()) {
+				this.fragments.add(fragment.getValue());
+				this.labels.add(fragment.getKey());
+				
+				actionBar.addTab(actionBar.newTab()
+	                    .setText(fragment.getKey())
+	                    .setTabListener(tabListener));
+			}
 		}
 
 		@Override
 		public Fragment getItem(int position) {
-			if (position == 0){
-				return new CadastroImovelFragment();
-			} else if (position == 1){
-				return new ListaFotosFragment();
-			}
-			return null;
-			
+			return fragments.get(position);
 		}
 
 		@Override
 		public int getCount() {
-			return 2;
+			return fragments.size();
 		}		
 	}
 
@@ -162,17 +164,17 @@ public class CadastroImovelActivity extends FragmentActivity {
 	}
 
 	private void salvarImovel() {
-		imovelAtual.setCodigo(txtCodigo.getText().toString());
-		imovelAtual.setNome(txtNome.getText().toString());
-		
-		Endereco e = new Endereco();
-		e.setEndereco(txtEndereco.getText().toString());
-		e.setBairro(txtBairro.getText().toString());
-		e.setCidade(txtCidade.getText().toString());
-		String aux = txtPosicao.getText().toString();
-		e.setLatitude(Double.parseDouble(aux.split("/")[0]));
-		e.setLongitude(Double.parseDouble(aux.split("/")[1]));
-		imovelAtual.setEndereco(e);		
+//		imovelAtual.setCodigo(txtCodigo.getText().toString());
+//		imovelAtual.setNome(txtNome.getText().toString());
+//		
+//		Endereco e = new Endereco();
+//		e.setEndereco(txtEndereco.getText().toString());
+//		e.setBairro(txtBairro.getText().toString());
+//		e.setCidade(txtCidade.getText().toString());
+//		String aux = txtPosicao.getText().toString();
+//		e.setLatitude(Double.parseDouble(aux.split("/")[0]));
+//		e.setLongitude(Double.parseDouble(aux.split("/")[1]));
+//		imovelAtual.setEndereco(e);		
 		
 		if (imovelAtual.validar()) {
 			buscarCordenadasImovel();
@@ -207,9 +209,11 @@ public class CadastroImovelActivity extends FragmentActivity {
 		if (requestCode == 1010) {
 			Bitmap foto = (Bitmap) data.getExtras().get("data");
 			imovelAtual.adicionaFoto(foto);
-			CustomPagerAdapter adapter = (CustomPagerAdapter)pager.getAdapter();
-			ListaFotosFragment frag = (ListaFotosFragment)adapter.getItem(1);
-			frag.loadListView();
+			listaFotos.loadListView();
+//			CustomPagerAdapter adapter = (CustomPagerAdapter)pager.getAdapter();
+//			adapter.notifyDataSetChanged();
+//			ListaFotosFragment frag = (ListaFotosFragment)adapter.getItem(1);
+			
 		}
 	}
 

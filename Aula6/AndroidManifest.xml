@@ -47,9 +47,11 @@
             android:label="@string/title_activity_menu" />
         <activity
             android:name="com.flexxo.mobil.CadastroImovelActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="Cadastrar Imóvel" />
         <activity
             android:name="com.flexxo.mobil.ImovelDetalheActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="Detalhes do Imóvel" />
     </application>
 

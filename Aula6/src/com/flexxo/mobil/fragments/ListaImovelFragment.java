@@ -36,10 +36,8 @@ public class ListaImovelFragment extends ListFragment {
 			@Override
 			public boolean onItemLongClick(AdapterView<?> adapter, View view,
 					int position, long arg3) {
-				Imovel imovel = (Imovel) adapter.getItemAtPosition(position);
-				Intent i = new Intent(activity,CadastroImovelActivity.class);
-				i.putExtra("Imovel", imovel.getCodigo());
-				startActivityForResult(i, 1010);
+				activity.gotoImovelEdicao((Imovel) adapter.getItemAtPosition(position));
+				
 				return true;
 			}
 		});
@@ -64,7 +62,7 @@ public class ListaImovelFragment extends ListFragment {
 		Imovel imovel = listaValores.get(position);
 		if (imovel != null) {
 			//Toast.makeText(activity, hash.get("nome").toString(), Toast.LENGTH_LONG).show();
-			activity.gotoImovel(imovel);
+			activity.gotoFocusImovel(imovel);
 		}
 		super.onListItemClick(l, v, position, id);
 

@@ -54,17 +54,26 @@ public class CadastroImovelFragment extends Fragment {
 		txtBairro.setText(e.getBairro());
 		txtCidade.setText(e.getCidade());
 		txtPosicao.setText(e.getLatitude() + "/" + e.getLongitude());
+		
 		return v;
 	}
 
 	private void initSpnTipo() {
 		List<Map<String, String>> valores = new ArrayList<Map<String, String>>();
 		Map<String, String> map;
-
-		for (TipoImovel tipo : TipoImovel.getAll()) {
+		
+		int selecionado = -1;
+		List<TipoImovel> tipos = TipoImovel.getAll();
+		for (int i = 0; i < tipos.size(); i++) {
+			TipoImovel tipo = tipos.get(i);
 			map = new HashMap<String, String>();
+			map.put("codigo", tipo.getCodigo());
 			map.put("nome", tipo.getNome());
 			valores.add(map);
+			
+			if (imovelAtual.getTipo() != null && imovelAtual.getTipo().getCodigo() != null && tipo.getCodigo().equals(imovelAtual.getTipo().getCodigo())) {
+				selecionado = i;
+			}
 		}
 
 		String[] from = new String[] { "nome" };
@@ -72,6 +81,8 @@ public class CadastroImovelFragment extends Fragment {
 		SimpleAdapter adapter = new SimpleAdapter(activity, valores, android.R.layout.simple_list_item_1, from, to);
 		adapter.setDropDownViewResource(android.R.layout.simple_list_item_1);
 		spnTipo.setAdapter(adapter);
+		if (selecionado != -1)
+			spnTipo.setSelection(selecionado);
 	}
 	
 	public void save(){
@@ -86,5 +97,8 @@ public class CadastroImovelFragment extends Fragment {
 		e.setLatitude(Double.parseDouble(aux.split("/")[0]));
 		e.setLongitude(Double.parseDouble(aux.split("/")[1]));
 		imovelAtual.setEndereco(e);	
+		if (spnTipo.getSelectedItem() != null)
+			imovelAtual.setTipo(TipoImovel.get((((HashMap<String, String>)spnTipo.getSelectedItem()).get("codigo"))));
+
 	}
 }

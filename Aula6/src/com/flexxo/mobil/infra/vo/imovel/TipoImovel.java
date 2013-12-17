@@ -26,6 +26,10 @@ public class TipoImovel {
 	private String codigo;
 	private String nome;
 	
+	public TipoImovel() {
+		
+	}
+	
 	public TipoImovel(Cursor cursor) {
 		this.codigo = cursor.getString(cursor.getColumnIndexOrThrow(Sql.CODIGO.toString()));
 		this.nome = cursor.getString(cursor.getColumnIndexOrThrow(Sql.NOME.toString()));

@@ -11,14 +11,24 @@ import org.json.JSONObject;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.os.Environment;
+import android.widget.ImageView;
 import com.flexxo.mobil.infra.dao.ImovelDao;
 import com.flexxo.mobil.infra.vo.Endereco;
+import com.google.android.gms.internal.au;
 
 public class Imovel {
 	public static enum Sql {
 		TABLE_NAME("Imovel"),
 
-		CODIGO("codigo_imov"), NOME("nome_imov"), ENDERECO("endereco_imov"), BAIRRO("bairro_imov"), CIDADE("cidade_imov"), UF("uf_imov"), LATITUDE("latitude_imov"), LONGITUDE("longitude_imov");
+		CODIGO("codigo_imov"),
+		TIPO("tipo_imov"),
+		NOME("nome_imov"),
+		ENDERECO("endereco_imov"), 
+		BAIRRO("bairro_imov"), 
+		CIDADE("cidade_imov"), 
+		UF("uf_imov"), 
+		LATITUDE("latitude_imov"), 
+		LONGITUDE("longitude_imov");
 
 		private String nome;
 
@@ -42,6 +52,7 @@ public class Imovel {
 	public Imovel() {
 		extras = new HashMap<String, String>();
 		fotos = new ArrayList<String>();
+		tipo = new TipoImovel();
 	}
 
 	public Imovel(Cursor cursor) {
@@ -49,6 +60,7 @@ public class Imovel {
 		
 		this.codigo = cursor.getString(cursor.getColumnIndexOrThrow(Sql.CODIGO.toString()));
 		this.nome = cursor.getString(cursor.getColumnIndexOrThrow(Sql.NOME.toString()));
+		
 		Endereco e = new Endereco();
 		e.setEndereco(cursor.getString(cursor.getColumnIndexOrThrow(Sql.ENDERECO.toString())));
 		e.setBairro(cursor.getString(cursor.getColumnIndexOrThrow(Sql.BAIRRO.toString())));
@@ -58,6 +70,8 @@ public class Imovel {
 		e.setLongitude(cursor.getDouble(cursor.getColumnIndexOrThrow(Sql.LONGITUDE.toString())));
 
 		this.endereco = e;
+		this.tipo = TipoImovel.get(cursor.getString(cursor.getColumnIndexOrThrow(Sql.TIPO.toString())));
+		carregaFotos();
 	}
 
 	public Imovel(JSONObject jsonObject) throws JSONException {
@@ -71,6 +85,7 @@ public class Imovel {
 
 		if (!jsonObject.isNull("tipoImovel"))
 			this.tipo = new TipoImovel(jsonObject.getJSONObject("tipoImovel"));
+		carregaFotos();
 	}
 
 	public static Imovel get(String codigo) {
@@ -93,6 +108,14 @@ public class Imovel {
 
 		return retorno;
 	}
+	
+	public void saveOrUpdate(){
+		ajustaFotos();
+		ImovelDao dao = new ImovelDao();
+		dao.saveOrUpdate(this);
+	}
+
+	
 
 	public void save() {
 		ImovelDao dao = new ImovelDao();
@@ -163,6 +186,31 @@ public class Imovel {
 			outStream.close();
 		} catch (Exception e) {
 			e.printStackTrace();
+		}
+	}
+	
+	private void carregaFotos(){
+		String extStorageDirectory = Environment.getExternalStorageDirectory().toString();
+		File aux;
+		int i=1;
+		while (true) {
+			aux = new File(extStorageDirectory,codigo+"_"+i+".jpg");
+			if (!aux.exists())
+				break;
+			else
+				fotos.add(String.valueOf(i));
+			i++;
+		}
+	}
+	
+	private void ajustaFotos() {
+		for (String index : fotos) {
+			String extStorageDirectory = Environment.getExternalStorageDirectory().toString();
+			File fCerto = new File(extStorageDirectory, codigo + "_" + index + ".jpg"); 
+			if (!fCerto.exists()){
+				new File(extStorageDirectory,"nullo_"+index+".jpg").renameTo(fCerto);
+			}
+				
 		}
 	}
 

@@ -15,7 +15,7 @@ public class ImovelDao {
 	
 	public Cursor getAll(){
 		SQLiteDatabase database= SqliteHelper.getCurrent().getWritableDatabase();
-		return database.rawQuery("select * from "+Imovel.Sql.TABLE_NAME, new String[]{});
+		return database.rawQuery("select * from "+Imovel.Sql.TABLE_NAME+" order by "+Imovel.Sql.CODIGO, new String[]{});
 	}
 	
 	public void save(Imovel imovel){
@@ -23,9 +23,16 @@ public class ImovelDao {
 		database.insert(Imovel.Sql.TABLE_NAME.toString(), null, createContentValues(imovel));
 	}
 	
+	
+	public void saveOrUpdate(Imovel imovel) {
+		SQLiteDatabase database= SqliteHelper.getCurrent().getWritableDatabase();
+		database.replace(Imovel.Sql.TABLE_NAME.toString(), null, createContentValues(imovel));		
+	}	
+	
 	private ContentValues createContentValues(Imovel imovel) {
 		ContentValues cv = new ContentValues();
 		cv.put(Imovel.Sql.CODIGO.toString(), imovel.getCodigo());
+		cv.put(Imovel.Sql.TIPO.toString(), imovel.getTipo().getCodigo());
 		cv.put(Imovel.Sql.NOME.toString(), imovel.getNome());
 		cv.put(Imovel.Sql.ENDERECO.toString(), imovel.getEndereco().getEndereco());
 		cv.put(Imovel.Sql.BAIRRO.toString(), imovel.getEndereco().getBairro());
@@ -40,5 +47,6 @@ public class ImovelDao {
 	public void clearAll() {
 		SQLiteDatabase database= SqliteHelper.getCurrent().getWritableDatabase();
 		database.delete(Imovel.Sql.TABLE_NAME.toString(), null, null);		
-	}	
+	}
+
 }

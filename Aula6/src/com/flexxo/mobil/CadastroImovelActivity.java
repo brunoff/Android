@@ -168,7 +168,8 @@ public class CadastroImovelActivity extends FragmentActivity {
 		
 		if (imovelAtual.validar()) {
 			buscarCordenadasImovel();
-			imovelAtual.save();
+			
+			imovelAtual.saveOrUpdate();
 			Toast.makeText(this, "Imovel salvo com sucesso!", Toast.LENGTH_LONG)
 					.show();
 			setResult(RESULT_OK);

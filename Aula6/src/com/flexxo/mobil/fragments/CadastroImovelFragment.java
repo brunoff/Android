@@ -73,4 +73,18 @@ public class CadastroImovelFragment extends Fragment {
 		adapter.setDropDownViewResource(android.R.layout.simple_list_item_1);
 		spnTipo.setAdapter(adapter);
 	}
+	
+	public void save(){
+		imovelAtual.setCodigo(txtCodigo.getText().toString());
+		imovelAtual.setNome(txtNome.getText().toString());
+		
+		Endereco e = new Endereco();
+		e.setEndereco(txtEndereco.getText().toString());
+		e.setBairro(txtBairro.getText().toString());
+		e.setCidade(txtCidade.getText().toString());
+		String aux = txtPosicao.getText().toString();
+		e.setLatitude(Double.parseDouble(aux.split("/")[0]));
+		e.setLongitude(Double.parseDouble(aux.split("/")[1]));
+		imovelAtual.setEndereco(e);	
+	}
 }

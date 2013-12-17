@@ -1,23 +1,26 @@
 package com.flexxo.mobil.fragments;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
+
 import android.app.Activity;
 import android.app.ListFragment;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView.OnItemLongClickListener;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.SimpleAdapter;
 import android.widget.TextView;
-import android.widget.Toast;
+
+import com.flexxo.mobil.CadastroImovelActivity;
 import com.flexxo.mobil.MenuActivity;
 import com.flexxo.mobil.R;
 import com.flexxo.mobil.infra.vo.imovel.Imovel;
+import com.google.android.gms.ads.a;
 
 public class ListaImovelFragment extends ListFragment {
 	private MenuActivity activity;
@@ -29,6 +32,17 @@ public class ListaImovelFragment extends ListFragment {
 
 		this.lista = ((ListView) getView().findViewById(android.R.id.list));
 		this.activity = ((MenuActivity) getActivity());
+		this.lista.setOnItemLongClickListener(new OnItemLongClickListener() {
+			@Override
+			public boolean onItemLongClick(AdapterView<?> adapter, View view,
+					int position, long arg3) {
+				Imovel imovel = (Imovel) adapter.getItemAtPosition(position);
+				Intent i = new Intent(activity,CadastroImovelActivity.class);
+				i.putExtra("Imovel", imovel.getCodigo());
+				startActivityForResult(i, 1010);
+				return true;
+			}
+		});
 		loadListView();
 	}
 

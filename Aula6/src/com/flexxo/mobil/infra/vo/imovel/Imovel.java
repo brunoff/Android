@@ -45,6 +45,8 @@ public class Imovel {
 	}
 
 	public Imovel(Cursor cursor) {
+		this();
+		
 		this.codigo = cursor.getString(cursor.getColumnIndexOrThrow(Sql.CODIGO.toString()));
 		this.nome = cursor.getString(cursor.getColumnIndexOrThrow(Sql.NOME.toString()));
 		Endereco e = new Endereco();
@@ -59,6 +61,8 @@ public class Imovel {
 	}
 
 	public Imovel(JSONObject jsonObject) throws JSONException {
+		this();
+		
 		this.codigo = jsonObject.getString("codigo");
 		this.nome = jsonObject.getString("nome");
 

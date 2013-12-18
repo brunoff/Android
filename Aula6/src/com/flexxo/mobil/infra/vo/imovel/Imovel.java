@@ -204,17 +204,21 @@ public class Imovel {
 	}
 	
 	private void ajustaFotos() {
+		
 		for (String index : fotos) {
 			String extStorageDirectory = Environment.getExternalStorageDirectory().toString();
 			File fCerto = new File(extStorageDirectory, codigo + "_" + index + ".jpg"); 
 			if (!fCerto.exists()){
 				new File(extStorageDirectory,"nullo_"+index+".jpg").renameTo(fCerto);
-			}
-				
+			}				
 		}
 	}
 
 	public List<String> getFotos() {
 		return fotos;
+	}
+
+	public void removerFoto(int position) {
+		fotos.remove(position);
 	}
 }

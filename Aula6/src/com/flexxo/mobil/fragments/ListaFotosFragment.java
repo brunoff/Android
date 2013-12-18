@@ -8,19 +8,27 @@ import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.v4.app.ListFragment;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ContextMenu.ContextMenuInfo;
+import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import com.flexxo.mobil.CadastroImovelActivity;
+import com.flexxo.mobil.ImovelDetalheActivity;
 import com.flexxo.mobil.R;
 import com.flexxo.mobil.infra.vo.imovel.Imovel;
+import com.google.android.gms.internal.ac;
 
 public class ListaFotosFragment extends ListFragment {
 	private Imovel imovelAtual;
 	private CadastroImovelActivity activity;
+	private ImovelDetalheActivity activityDetalhe;
+	
 	private ListView lista;
 	private List<String> listaValores;
 
@@ -30,7 +38,16 @@ public class ListaFotosFragment extends ListFragment {
 		super.onActivityCreated(savedInstanceState);
 
 		this.lista = ((ListView) getView().findViewById(android.R.id.list));
-		this.activity = ((CadastroImovelActivity) getActivity());
+		
+		if (getActivity() instanceof CadastroImovelActivity)
+			this.activity = ((CadastroImovelActivity) getActivity());
+		else
+			this.activityDetalhe = ((ImovelDetalheActivity) getActivity());
+		
+		this.lista.setClickable(false);
+		this.lista.setLongClickable(true);
+		this.lista.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
+		registerForContextMenu(this.lista);
 		loadListView();
 	}
 	
@@ -40,13 +57,20 @@ public class ListaFotosFragment extends ListFragment {
 	}
 
 	public void loadListView() {
-		if (activity == null)
-			return;
-		listaValores = activity.getImovelAtual().getFotos();
-		FotosAdapter adapter = new FotosAdapter(this.activity, listaValores);
-		imovelAtual = activity.getImovelAtual();
+		FotosAdapter adapter = null;
+		if (activity != null){
+
+			listaValores = activity.getImovelAtual().getFotos();
+			adapter = new FotosAdapter(this.activity, listaValores);
+			imovelAtual = activity.getImovelAtual();
+		}else if (activityDetalhe != null){
+			listaValores = activityDetalhe.getImovelAtual().getFotos();
+			adapter = new FotosAdapter(this.activityDetalhe, listaValores);
+			imovelAtual = activityDetalhe.getImovelAtual();
+		}
 
 		this.lista.setAdapter(adapter);
+		
 		setListShown(true);
 	}
 
@@ -93,5 +117,18 @@ public class ListaFotosFragment extends ListFragment {
 
 			return convertView;
 		}
+	}
+	
+	@Override
+	public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
+		menu.add("Excluir");
+		super.onCreateContextMenu(menu, v, menuInfo);
+	}	
+	
+	@Override
+	public boolean onContextItemSelected(MenuItem item) {
+		int position = ((AdapterContextMenuInfo) item.getMenuInfo()).position;
+		imovelAtual.removerFoto(position);
+		return super.onContextItemSelected(item);
 	}
 }

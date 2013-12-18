@@ -22,4 +22,9 @@
         android:layout_height="wrap_content"
         android:text="" />
 
+    <ImageView
+        android:id="@+id/lista_imovel_frag_row_imagem"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
 </LinearLayout>

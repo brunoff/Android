@@ -22,7 +22,7 @@ import com.flexxo.mobil.infra.vo.imovel.TipoImovel;
 
 public class WebService {
 
-		private final static String URL = "http://10.100.10.177/MvcApplication1";
+		private final static String URL = "http://brunoff.somee.com";
 
 		public void receberTiposImovel() throws JSONException {
 			String path = "api/TipoImovel";
@@ -36,9 +36,9 @@ public class WebService {
 		public void receberImovel() throws JSONException {
 			String path = "api/Imovel";
 			JSONArray json = new JSONArray(request(path));
-			Imovel.clearAll();
+//			Imovel.clearAll();
 			for (int i = 0; i<json.length();i++){
-				new Imovel((JSONObject)json.get(i)).save();
+				new Imovel((JSONObject)json.get(i)).saveOrUpdate();
 			}
 		}
 

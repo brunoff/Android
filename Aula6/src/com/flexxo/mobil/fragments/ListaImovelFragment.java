@@ -1,26 +1,28 @@
 package com.flexxo.mobil.fragments;
 
+import java.io.File;
 import java.util.List;
-
 import android.app.Activity;
 import android.app.ListFragment;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Environment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
-
 import com.flexxo.mobil.CadastroImovelActivity;
 import com.flexxo.mobil.MenuActivity;
 import com.flexxo.mobil.R;
 import com.flexxo.mobil.infra.vo.imovel.Imovel;
 import com.google.android.gms.ads.a;
+import com.squareup.picasso.Picasso;
 
 public class ListaImovelFragment extends ListFragment {
 	private MenuActivity activity;
@@ -100,14 +102,26 @@ public class ListaImovelFragment extends ListFragment {
 		public View getView(int position, View convertView, ViewGroup parent) {
 			if (convertView == null) {
 				LayoutInflater inflater = ((Activity) getContext()).getLayoutInflater();
-
 				convertView = inflater.inflate(R.layout.lista_imovel_fragment_row, parent, false);
 
 			}
+			
+			Imovel imovel = valores.get(position);
 
 			TextView textViewItem = (TextView) convertView.findViewById(R.id.lista_imovel_frag_row_nome);
 
-			textViewItem.setText(valores.get(position).getNome());
+			textViewItem.setText(imovel.getNome());
+			
+			ImageView imageView = (ImageView) convertView.findViewById(R.id.lista_imovel_frag_row_imagem);
+			
+			
+			if (imovel.getFotos().size()>0){
+				String extStorageDirectory = Environment.getExternalStorageDirectory().toString();				
+				Picasso.with(activity).load(new File(extStorageDirectory,imovel.getCodigo()+"_"+imovel.getFotos().get(0)+".jpg")).into(imageView);
+			}else{
+				imageView.setImageResource(android.R.color.transparent);
+			}
+			
 
 			return convertView;
 		}
